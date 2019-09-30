@@ -2,15 +2,25 @@ import backend_functionality
 
 class Model(object):
     # initialiser for class in python is like a constructor in java
-    #def __init__(self, mazesize):
-        #self.mazesize = mazesize
+    # def __init__(self, mazesize):
+        # self.mazesize = mazesize
 
     def maze_gen(self, mazesize):
-        backend_functionality.maze_gen(mazesize)
+        return backend_functionality.maze_gen(mazesize)
 
 class View(object):
-    def input_size()
-    #user interaction functionality here
+    # user print functionality here
+    def startView(self):
+        print ('Welcome!')
+    def endView(self):
+        print ('Goodbye!')
+
 class Controller(object):
-    #this is like the facade in java, this class gets the input from the user 
-    #and uses it to figure out what backend functions should be run from the model
+    def start(self):
+        v = View()
+        v.startView()
+        size = int(input("To generate a maze insert a mazesize: "))
+        print(size)
+
+c = Controller()
+c.start()
