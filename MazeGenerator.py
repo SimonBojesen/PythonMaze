@@ -13,6 +13,15 @@ sys.setrecursionlimit(10000)
 #Each maze cell contains a tuple of directions of cells to which it is connected
 
 #Takes a maze and converts it to an array of X's and blanks to represent walls, etc
+#def convert(maze):
+    #pretty_maze = [["1"]*(len(maze[0])) for a in range(len(maze))]
+    #for y,row in enumerate(maze):
+      #  for x,col in enumerate(row):
+       #     pretty_maze[y][x] = "0"
+        #    for direction in col:
+         #       pretty_maze[y+direction[0]][x+direction[1]] = "0"
+   # return pretty_maze
+
 def convert(maze):
     pretty_maze = [["1"]*(2*len(maze[0])+1) for a in range(2*len(maze)+1)]
     for y,row in enumerate(maze):
@@ -53,7 +62,6 @@ def DFS(maze, coords=(0,0)):
     return maze
 end = time.time()
 
-#Very simple binary tree. Each node either points down or right.
 def binary(maze):
     directions = [(1,0), (0,1)]
     for y, row in enumerate(maze):
@@ -101,9 +109,8 @@ def recursive_division(maze, direction=True):
 
 
 size = 2
-pretty_print(DFS(make_empty_maze(size,size)))
-print(end - start)
 
-#pretty_print(binary(make_empty_maze(size,size)))
-#pretty_print(recursive_division(make_empty_maze(size,size)))
-#pretty_print(eller(make_empty_maze(size,size)))
+print("DFS:")
+pretty_print(DFS(make_empty_maze(size,size)))
+print("binary:")
+pretty_print(binary(make_empty_maze(size,size)))
