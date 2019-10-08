@@ -27,7 +27,8 @@ def convert(maze):
         for x,col in enumerate(row):
             pretty_maze[2*y+1][2*x+1] = "0"
             for direction in col:
-                pretty_maze[2*y+1+direction[0]][2*x+1+direction[1]] = '\u001b[31m0\u001b[37m'
+                pretty_maze[2*y+1+direction[0]][2*x+1+direction[1]] = "0" # color red for 0 & means you can move between
+
     return pretty_maze
 
 #Takes a converted maze and pretty prints it
@@ -73,7 +74,40 @@ def binary(maze):
             else:
                 direction = choice(directions)
             maze[y][x] = [direction]
-size = 3
+
+#Randomly splits maze vertically or horizontally. Connects the two halves and recurses.
+def recursive_division(maze, direction=True):
+    if len(maze) == 1 and len(maze[0]) == 1:
+        return maze
+    if direction:
+        if len(maze) == 1:
+            return recursive_division(maze, False)
+        split = randint(1,len(maze)-1)
+        first = maze[:split]
+        second = maze[split:]
+        recursive_division(first, False)
+        recursive_division(second, False)
+        connection = randint(0, len(maze[0])-1)
+        first[-1][connection].append((1,0))
+        second[0][connection].append((-1,0))
+        return first+second
+    else:
+        if len(maze[0]) == 1:
+            return recursive_division(maze, True)
+        split = randint(1,len(maze[0])-1)
+        first = [row[:split] for row in maze]
+        second = [row[split:] for row in maze]
+        recursive_division(first, True)
+        recursive_division(second, True)
+        connection = randint(0, len(maze)-1)
+        first[connection][-1].append((0,1))
+        second[connection][0].append((0,-1))
+        return [a+b for a,b in zip(first, second)]
+
+
+
+size = 2
+
 print("DFS:")
 pretty_print(DFS(make_empty_maze(size,size)))
 print("binary:")
