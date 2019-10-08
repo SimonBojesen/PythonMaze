@@ -2,6 +2,7 @@
 #All code is released to the public domain under the terms of [http://unlicense.org]
 
 from random import randint, shuffle, choice
+import time
 import sys
 import os
 os.system("cls")
@@ -25,10 +26,9 @@ def convert(maze):
     pretty_maze = [["1"]*(2*len(maze[0])+1) for a in range(2*len(maze)+1)]
     for y,row in enumerate(maze):
         for x,col in enumerate(row):
-            pretty_maze[2*y+1][2*x+1] = "0"
+            pretty_maze[2*y+1][2*x+1] = '\u001b[31m0\u001b[37m'
             for direction in col:
-                pretty_maze[2*y+1+direction[0]][2*x+1+direction[1]] = "0" # color red for 0 & means you can move between
-
+                pretty_maze[2*y+1+direction[0]][2*x+1+direction[1]] ='0' # color red for 0 & means you can move between
     return pretty_maze
 
 #Takes a converted maze and pretty prints it
@@ -47,6 +47,7 @@ def make_empty_maze(width, height):
 
 #Recursive backtracker. 
 #Looks at its neighbors randomly, if unvisitied, visit and recurse
+start = time.time()
 def DFS(maze, coords=(0,0)):
     directions = [(0,1),(1,0),(0,-1),(-1,0)]
     shuffle(directions)
@@ -59,6 +60,7 @@ def DFS(maze, coords=(0,0)):
             maze[new_coords[0]][new_coords[1]].append((-direction[0], -direction[1]))
             DFS(maze, new_coords)
     return maze
+end = time.time()
 
 def binary(maze):
     directions = [(1,0), (0,1)]
