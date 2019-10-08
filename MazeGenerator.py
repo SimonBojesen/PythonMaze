@@ -3,6 +3,8 @@
 
 from random import randint, shuffle, choice
 import sys
+import os
+os.system("cls")
 
 #needed for DFS...
 sys.setrecursionlimit(10000)
@@ -11,12 +13,12 @@ sys.setrecursionlimit(10000)
 
 #Takes a maze and converts it to an array of X's and blanks to represent walls, etc
 def convert(maze):
-    pretty_maze = [["0"]*(2*len(maze[0])+1) for a in range(2*len(maze)+1)]
+    pretty_maze = [["1"]*(2*len(maze[0])+1) for a in range(2*len(maze)+1)]
     for y,row in enumerate(maze):
         for x,col in enumerate(row):
-            pretty_maze[2*y+1][2*x+1] = "1"
+            pretty_maze[2*y+1][2*x+1] = "0"
             for direction in col:
-                pretty_maze[2*y+1+direction[0]][2*x+1+direction[1]] = " "
+                pretty_maze[2*y+1+direction[0]][2*x+1+direction[1]] ='\u001b[31m0\u001b[37m' # color red for 0 & means you can move between
     return pretty_maze
 
 #Takes a converted maze and pretty prints it
@@ -95,7 +97,7 @@ def recursive_division(maze, direction=True):
 
 
 
-size = 5
+size = 2
 pretty_print(DFS(make_empty_maze(size,size)))
 
 #pretty_print(binary(make_empty_maze(size,size)))
