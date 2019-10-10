@@ -59,58 +59,27 @@ def DFS(maze, coords=(0,0)):
             maze[coords[0]][coords[1]].append(direction)
             maze[new_coords[0]][new_coords[1]].append((-direction[0], -direction[1]))
             DFS(maze, new_coords)
+          #  maze[new_coords[2][]]endCoord=(maze.index(size)
+
+          # printer første index - find metode til at få fat i sidste index og derefter sæt det til 2
+            print(maze[0][0])
+    #send = time.time()        
     return maze
-end = time.time()
 
-def binary(maze):
-    directions = [(1,0), (0,1)]
-    for y, row in enumerate(maze):
-        for x, col in enumerate(row):
-            if y == len(maze)-1 and x == len(row)-1:
-                maze[y][x] = []
-                return maze
-            if y == len(maze)-1:
-                direction = directions[1]
-            elif x == len(row)-1:
-                direction = directions[0]
-            else:
-                direction = choice(directions)
-            maze[y][x] = [direction]
 
-#Randomly splits maze vertically or horizontally. Connects the two halves and recurses.
-def recursive_division(maze, direction=True):
-    if len(maze) == 1 and len(maze[0]) == 1:
-        return maze
-    if direction:
-        if len(maze) == 1:
-            return recursive_division(maze, False)
-        split = randint(1,len(maze)-1)
-        first = maze[:split]
-        second = maze[split:]
-        recursive_division(first, False)
-        recursive_division(second, False)
-        connection = randint(0, len(maze[0])-1)
-        first[-1][connection].append((1,0))
-        second[0][connection].append((-1,0))
-        return first+second
-    else:
-        if len(maze[0]) == 1:
-            return recursive_division(maze, True)
-        split = randint(1,len(maze[0])-1)
-        first = [row[:split] for row in maze]
-        second = [row[split:] for row in maze]
-        recursive_division(first, True)
-        recursive_division(second, True)
-        connection = randint(0, len(maze)-1)
-        first[connection][-1].append((0,1))
-        second[connection][0].append((0,-1))
-        return [a+b for a,b in zip(first, second)]
+  
+
+    
 
 
 
-size = 2
 
-print("DFS:")
-pretty_print(DFS(make_empty_maze(size,size)))
-print("binary:")
-pretty_print(binary(make_empty_maze(size,size)))
+size = 4
+
+print("DFS hele grittet:")
+pretty_print(DFS(make_empty_maze(size,size))) 
+print("DFS sidste index:")
+print(DFS(make_empty_maze(size,size)))
+#print("binary:")
+
+# pretty_print(make_empty_maze(size,size))
