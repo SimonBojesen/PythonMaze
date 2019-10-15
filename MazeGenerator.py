@@ -12,16 +12,6 @@ sys.setrecursionlimit(10000)
 
 #Each maze cell contains a tuple of directions of cells to which it is connected
 
-#Takes a maze and converts it to an array of X's and blanks to represent walls, etc
-#def convert(maze):
-    #pretty_maze = [["1"]*(len(maze[0])) for a in range(len(maze))]
-    #for y,row in enumerate(maze):
-      #  for x,col in enumerate(row):
-       #     pretty_maze[y][x] = "0"
-        #    for direction in col:
-         #       pretty_maze[y+direction[0]][x+direction[1]] = "0"
-   # return pretty_maze
-
 def convert(maze):
     pretty_maze = [["1"]*(2*len(maze[0])+1) for a in range(2*len(maze)+1)]
     for y,row in enumerate(maze):
@@ -47,7 +37,6 @@ def make_empty_maze(width, height):
 
 #Recursive backtracker. 
 #Looks at its neighbors randomly, if unvisitied, visit and recurse
-start = time.time()
 def DFS(maze, coords=(0,0)):
     directions = [(0,1),(1,0),(0,-1),(-1,0)]
     shuffle(directions)
@@ -59,60 +48,40 @@ def DFS(maze, coords=(0,0)):
             maze[coords[0]][coords[1]].append(direction)
             maze[new_coords[0]][new_coords[1]].append((-direction[0], -direction[1]))
             DFS(maze, new_coords)
+          #  maze[new_coords[2][]]endCoord=(maze.index(size)
+            
+          # printer første index - find metode til at få fat i sidste index og derefter sæt det til 2
+            #print(maze[0][0])    
     return maze
-end = time.time()
 
-def binary(maze):
-    directions = [(1,0), (0,1)]
-    for y, row in enumerate(maze):
-        for x, col in enumerate(row):
-            if y == len(maze)-1 and x == len(row)-1:
-                maze[y][x] = []
-                return maze
-            if y == len(maze)-1:
-                direction = directions[1]
-            elif x == len(row)-1:
-                direction = directions[0]
-            else:
-                direction = choice(directions)
-            maze[y][x] = [direction]
+def search(x, y):
+    if maze[x][y] == 2:
+        print ('found at %d,%d' % (x, y))
+        return True
+    elif maze[x][y] == 1:
+        print ('wall at %d,%d' % (x, y))
+        return False
+    elif maze[x][y] == 3:
+        print ('visited at %d,%d' % (x, y))
+        return False
 
-#Randomly splits maze vertically or horizontally. Connects the two halves and recurses.
-def recursive_division(maze, direction=True):
-    if len(maze) == 1 and len(maze[0]) == 1:
-        return maze
-    if direction:
-        if len(maze) == 1:
-            return recursive_division(maze, False)
-        split = randint(1,len(maze)-1)
-        first = maze[:split]
-        second = maze[split:]
-        recursive_division(first, False)
-        recursive_division(second, False)
-        connection = randint(0, len(maze[0])-1)
-        first[-1][connection].append((1,0))
-        second[0][connection].append((-1,0))
-        return first+second
-    else:
-        if len(maze[0]) == 1:
-            return recursive_division(maze, True)
-        split = randint(1,len(maze[0])-1)
-        first = [row[:split] for row in maze]
-        second = [row[split:] for row in maze]
-        recursive_division(first, True)
-        recursive_division(second, True)
-        connection = randint(0, len(maze)-1)
-        first[connection][-1].append((0,1))
-        second[connection][0].append((0,-1))
-        return [a+b for a,b in zip(first, second)]
+    print ('visiting %d,%d' % (x, y))
 
+    # mark as visited
+    maze[x][y] = 3
+
+    # explore neighbors clockwise starting by the one on the right
+    if ((x < len(maze)-1 and search(x+1, y))
+        or (y > 0 and search(x, y-1))
+        or (x > 0 and search(x-1, y))
+        or (y < len(maze)-1 and search(x, y+1))):
+        return True
+    return False
 
 size = 5
 
 print("DFS:")
-pretty_print(DFS(make_empty_maze(size,size)))
-print("binary:")
-pretty_print(binary(make_empty_maze(size,size)))
-print("recursive division:")
-pretty_print(recursive_division(make_empty_maze(size,size)))
-
+maze = DFS(make_empty_maze(size,size))
+print(maze)
+pretty_print(maze)
+search(0, 0)
