@@ -107,10 +107,12 @@ def recursive_division(maze, direction=True):
         return [a+b for a,b in zip(first, second)]
 
 
-
-size = 2
+size = 5
 
 print("DFS:")
 pretty_print(DFS(make_empty_maze(size,size)))
 print("binary:")
 pretty_print(binary(make_empty_maze(size,size)))
+print("recursive division:")
+pretty_print(recursive_division(make_empty_maze(size,size)))
+
