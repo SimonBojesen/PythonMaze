@@ -47,11 +47,12 @@ def DFS(maze, coords=(0,0)):
            not maze[new_coords[0]][new_coords[1]]:
             maze[coords[0]][coords[1]].append(direction)
             maze[new_coords[0]][new_coords[1]].append((-direction[0], -direction[1]))
+            print(new_coords)
             DFS(maze, new_coords)
           #  maze[new_coords[2][]]endCoord=(maze.index(size)
             
           # printer første index - find metode til at få fat i sidste index og derefter sæt det til 2
-            #print(maze[0][0])    
+          #  print(maze[0][0])    
     return maze
 
 def search(x, y):
@@ -82,6 +83,6 @@ size = 5
 
 print("DFS:")
 maze = DFS(make_empty_maze(size,size))
-print(maze)
+#print(maze)
 pretty_print(maze)
 search(0, 0)
