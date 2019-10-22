@@ -19,6 +19,7 @@ def convert(maze):
             pretty_maze[2*y+1][2*x+1] = '\u001b[31m0\u001b[37m'
             for direction in col:
                 pretty_maze[2*y+1+direction[0]][2*x+1+direction[1]] ='0' # color red for 0 & means you can move between
+    pretty_maze[len(maze)-1][len(maze)-1] = 2            
     return pretty_maze
 
 #Takes a converted maze and pretty prints it
@@ -83,6 +84,7 @@ size = 5
 
 print("DFS:")
 maze = DFS(make_empty_maze(size,size))
-#print(maze)
 pretty_print(maze)
+maze2 = convert(DFS(make_empty_maze(size,size)))
+
 search(0, 0)
