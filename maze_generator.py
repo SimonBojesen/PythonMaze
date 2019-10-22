@@ -50,20 +50,20 @@ def DFS(maze, coords=(0,0)):
     return maze
 
 def search(x, y):
-    if grid[x][y] == 2:
+    if grid[x][y] == '2':
         print("found at %d,%d" % (x, y))
         return True
-    elif grid[x][y] == 1:
+    elif grid[x][y] == '1':
         print ('wall at %d,%d' % (x, y))
         return (False)
-    elif grid[x][y] == 3:
+    elif grid[x][y] == '3':
         print ('visited at %d,%d' % (x, y))
         return (False)
     
     print ('visiting %d,%d' % (x, y))
 
     # mark as visited
-    grid[x][y] = 3
+    grid[x][y] = '3'
 
     # explore neighbors clockwise starting by the one on the right
     if ((x < (len(grid)-1) and search(x+1, y))
