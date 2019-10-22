@@ -11,17 +11,18 @@ sys.setrecursionlimit(10000)
 
 #Takes a maze and converts it to an array of X's and blanks to represent walls, etc
 def convert(maze):
-    pretty_maze = [["X"]*(2*len(maze[0])+1) for a in range(2*len(maze)+1)]
+    pretty_maze = [["1"]*(2*len(maze[0])+1) for a in range(2*len(maze)+1)]
     for y,row in enumerate(maze):
         for x,col in enumerate(row):
-            pretty_maze[2*y+1][2*x+1] = " "
+            pretty_maze[2*y+1][2*x+1] = "0"
             for direction in col:
-                pretty_maze[2*y+1+direction[0]][2*x+1+direction[1]] = " "
+                pretty_maze[2*y+1+direction[0]][2*x+1+direction[1]] = "0"
+    pretty_maze[2*len(maze)-1][2*len(maze)-1] = '2'
     return pretty_maze
 
 #Takes a converted maze and pretty prints it
 def pretty_print(maze):
-    for a in convert(maze):
+    for a in maze:
         string = ""
         for b in a:
             string += b
@@ -48,5 +49,35 @@ def DFS(maze, coords=(0,0)):
             DFS(maze, new_coords)
     return maze
 
+def search(x, y):
+    if grid[x][y] == 2:
+        print("found at %d,%d" % (x, y))
+        return True
+    elif grid[x][y] == 1:
+        print ('wall at %d,%d' % (x, y))
+        return (False)
+    elif grid[x][y] == 3:
+        print ('visited at %d,%d' % (x, y))
+        return (False)
+    
+    print ('visiting %d,%d' % (x, y))
+
+    # mark as visited
+    grid[x][y] = 3
+
+    # explore neighbors clockwise starting by the one on the right
+    if ((x < (len(grid)-1) and search(x+1, y))
+        or (y > 0 and search(x, y-1))
+        or (x > 0 and search(x-1, y))
+        or (y < len(grid)-1 and search(x, y+1))):
+        return True
+
+    return False
+
+print("dfs: ")
 size = 5
-pretty_print(DFS(make_empty_maze(size,size)))
+
+grid = convert(DFS(make_empty_maze(size, size)))
+pretty_print(grid)
+search(1, 1)
+
