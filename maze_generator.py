@@ -3,6 +3,7 @@
 
 from random import randint, shuffle, choice
 import sys
+import time
 
 #needed for DFS...
 sys.setrecursionlimit(10000)
@@ -49,10 +50,12 @@ def DFS(maze, coords=(0,0)):
             DFS(maze, new_coords)
     return maze
 
+start = time.clock() # Time start here?
 def search(x, y):
-    
     if grid[x][y] == '2':
         print("found at %d,%d" % (x, y))
+        # Time end here?
+        
         return True
     elif grid[x][y] == '1':
         print ('wall at %d,%d' % (x, y))
@@ -75,6 +78,7 @@ def search(x, y):
         return True
 
     return False
+end = time.clock()
 
 stepcount = -1
 def increment():
@@ -82,7 +86,7 @@ def increment():
     stepcount = stepcount+1
 
 print("dfs: ")
-size = 5
+size = 30
 
 
 grid = convert(DFS(make_empty_maze(size, size)))
@@ -90,3 +94,4 @@ pretty_print(grid)
 
 search(1, 1)
 print("steps: " + str(stepcount))
+print("Solve time", end - start)
