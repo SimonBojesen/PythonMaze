@@ -12,7 +12,7 @@ storedTime = 0
 # it increments by 1 everytime the search function gets called
 # this is why we start at -1 so that the first time it gets called it increments to 0 steps
 
-# needed for DFS...
+# needed for DFS...cls
 sys.setrecursionlimit(10000)
 
 # Each maze cell contains a tuple of directions of cells to which it is connected
@@ -62,18 +62,15 @@ def search(x, y):
     if grid[x][y] == '2':
         print("found at %d,%d" % (x, y))
         # Time end here? yes
-        stop = time.process_time()
-        stopTime(stop, start)
+        stopTime(start)
         return True
     elif grid[x][y] == '1':
         print('wall at %d,%d' % (x, y))
-        stop = time.process_time()
-        stopTime(stop, start)
+        stopTime(start)
         return (False)
     elif grid[x][y] == '3':
         print('visited at %d,%d' % (x, y))
-        stop = time.process_time()
-        stopTime(stop, start)
+        stopTime(start)
         return (False)
     increment()
     print('visiting %d,%d' % (x, y))
@@ -86,18 +83,17 @@ def search(x, y):
         or (y > 0 and search(x, y-1))
         or (x > 0 and search(x-1, y))
         or (y < len(grid)-1 and search(x, y+1))):
-        stop = time.process_time()
-        stopTime(stop, start)    
+        stopTime(start)    
         return True
-    stop = time.process_time()
-    stopTime(stop, start)
+    stopTime(start)
     return False
 
 def increment():
     global stepcount
     stepcount = stepcount+1
 
-def stopTime(stop, start):
+def stopTime(start):
+    stop = time.process_time()
     elapsedTime = (stop-start)
     global storedTime 
     storedTime += elapsedTime
