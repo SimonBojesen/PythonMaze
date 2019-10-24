@@ -50,7 +50,7 @@ def DFS(maze, coords=(0,0)):
     return maze
 
 def search(x, y):
-    increment(stepcount)
+    
     if grid[x][y] == '2':
         print("found at %d,%d" % (x, y))
         return True
@@ -61,6 +61,7 @@ def search(x, y):
         print ('visited at %d,%d' % (x, y))
         return (False)
     
+    increment()
     print ('visiting %d,%d' % (x, y))
 
     # mark as visited
@@ -75,12 +76,14 @@ def search(x, y):
 
     return False
 
-def increment(stepcount):
-    return stepcount+1
+stepcount = -1
+def increment():
+    global stepcount
+    stepcount = stepcount+1
 
 print("dfs: ")
 size = 5
-stepcount = 0
+
 
 grid = convert(DFS(make_empty_maze(size, size)))
 pretty_print(grid)
