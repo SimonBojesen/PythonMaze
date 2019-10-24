@@ -4,6 +4,11 @@
 from random import randint, shuffle, choice
 import sys
 
+size = 5
+#this is a stepcounter
+#it increments by 1 everytime the search function gets called
+#this is why we start at -1 so that the first time it gets called it increments to 0 steps
+COUNT = -1
 #needed for DFS...
 sys.setrecursionlimit(10000)
 
@@ -50,7 +55,6 @@ def DFS(maze, coords=(0,0)):
     return maze
 
 def search(x, y):
-    increment(stepcount)
     if grid[x][y] == '2':
         print("found at %d,%d" % (x, y))
         return True
@@ -60,7 +64,7 @@ def search(x, y):
     elif grid[x][y] == '3':
         print ('visited at %d,%d' % (x, y))
         return (False)
-    
+    increment()
     print ('visiting %d,%d' % (x, y))
 
     # mark as visited
@@ -75,15 +79,14 @@ def search(x, y):
 
     return False
 
-def increment(stepcount):
-    return stepcount+1
+
+
+def increment():
+    global COUNT
+    COUNT = COUNT+1
 
 print("dfs: ")
-size = 5
-stepcount = 0
-
 grid = convert(DFS(make_empty_maze(size, size)))
 pretty_print(grid)
-
 search(1, 1)
-print("steps: " + str(stepcount))
+print("steps: " + str(COUNT))
