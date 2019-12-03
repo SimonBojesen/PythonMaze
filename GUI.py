@@ -20,20 +20,27 @@ class Window(Frame):
         self.master.title("GUI")
 
 def popup():
-    s = simpledialog.askstring('Input file name', 'file name')
-    print(s) #prints the string typed in by the user, make a funtion to save the file by that name.
+    S1 = simpledialog.askstring('Input file name', 'file name')
+    print(S1) #prints the string typed in by the user, make a funtion to save the file by that name.
 
 def fileBrowse(): #open a browse window and display that file on screen
     global my_image
     root.filename = filedialog.askopenfilename(initialdir = "/", title = "Select a File", filetype = (("jpeg","*jpg"), ("All Files", "*.*")))
-    L1 = my_label = Label(root, text=root.filename) # shows the location of the file opened
+    L1 = Label(root, text=root.filename) # shows the location of the file opened
     L1.pack()
     my_image = ImageTk.PhotoImage(Image.open(root.filename))
-    L2 = my_image_label = Label(image=my_image)# shows a Image of the opened file
+    L2 = Label(image=my_image)# shows a Image of the opened file
     L2.pack()
 
 #B2 = my_btn = Button(root, text="Open File", command=fileBrowse)
 #B2.pack()
+
+def mazeSize():
+    S2 = simpledialog.askinteger('Mazesize', 'Input x & y', initialvalue="5")
+    print(S2)
+    
+
+    
 
 #Creating a canvas
 C = Canvas(root, bg="blue", height=750,
@@ -83,7 +90,7 @@ menubar.add_cascade(label="Help", menu=help)
 maze = Menu(menubar, tearoff=0)
 #added dropdown options to maze
 maze.add_command(label="New")
-maze.add_command(label="Size")
+maze.add_command(label="Size", command=mazeSize)
 maze.add_command(label="Load", command=fileBrowse)# select a file to load
 maze.add_command(label="Run")
 #added "Maze" to menu
