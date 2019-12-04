@@ -4,10 +4,11 @@
 from random import randint, shuffle, choice
 import sys
 import time
+import csv
+import platform
 
 stepcount = -1
-size = 30
-storedTime = 0
+size = 5
 # this is a stepcounter
 # it increments by 1 everytime the search function gets called
 # this is why we start at -1 so that the first time it gets called it increments to 0 steps
@@ -58,19 +59,15 @@ def DFS(maze, coords=(0, 0)):
     return maze
 
 def search(x, y):
-    start = time.process_time()
     if grid[x][y] == '2':
         print("found at %d,%d" % (x, y))
         # Time end here? yes
-        stopTime(start)
         return True
     elif grid[x][y] == '1':
         print('wall at %d,%d' % (x, y))
-        stopTime(start)
         return (False)
     elif grid[x][y] == '3':
         print('visited at %d,%d' % (x, y))
-        stopTime(start)
         return (False)
     increment()
     print('visiting %d,%d' % (x, y))
@@ -82,26 +79,38 @@ def search(x, y):
     if ((x < (len(grid)-1) and search(x+1, y))
         or (y > 0 and search(x, y-1))
         or (x > 0 and search(x-1, y))
-        or (y < len(grid)-1 and search(x, y+1))):
-        stopTime(start)    
+        or (y < len(grid)-1 and search(x, y+1))):   
         return True
-    stopTime(start)
     return False
 
 def increment():
     global stepcount
     stepcount = stepcount+1
 
-def stopTime(start):
-    stop = time.process_time()
-    elapsedTime = (stop-start)
-    global storedTime 
-    storedTime += elapsedTime
+def write(maze):
+    if platform.system() == 'Windows':
+        newline=''
+    else:
+        newline=None
+    with open("maze.csv", 'w', newline=newline) as output_file:
+        output_writer = csv.writer(output_file)
+       
+        output_writer.writerows(maze)
 
+def read():
+    with open("maze.csv") as f:
+        lis = [line.replace("\n","").split(",") for line in f] # create a list of lists
+        return lis
+    
 print("dfs: ")
-grid = convert(DFS(make_empty_maze(size, size)))
+write(convert(DFS(make_empty_maze(size, size))))
+grid = read()
 pretty_print(grid)
+
+start = time.process_time
 search(1, 1)
+stop = time.process_time
+
 print("steps: " + str(stepcount))
-print("Solve algorithm timer:", storedTime)
+print("Solve algorithm timer:", stop - start)
 #print("Solve time", end - start)
