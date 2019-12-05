@@ -26,10 +26,10 @@ def popup():
 def fileBrowse(): #open a browse window and display that file on screen
     global my_image
     root.filename = filedialog.askopenfilename(initialdir = "/", title = "Select a File", filetype = (("jpeg","*jpg"), ("All Files", "*.*")))
-    L1 = Label(root, text=root.filename) # shows the location of the file opened
+    L1 = Label(frame, text=root.filename) # shows the location of the file opened
     L1.pack()
     my_image = ImageTk.PhotoImage(Image.open(root.filename))
-    L2 = Label(image=my_image)# shows a Image of the opened file
+    L2 = Label(frame, image=my_image)# shows a Image of the opened file
     L2.pack()
 
 #B2 = my_btn = Button(root, text="Open File", command=fileBrowse)
@@ -41,14 +41,17 @@ def mazeSize():
     
 
     
-
+frame = LabelFrame(root, padx=5, pady=5)
+frame.pack(padx=10,pady=10)
 #Creating a canvas
-C = Canvas(root, bg="blue", height=750,
-width=700)
-coord = 10, 50, 240, 210
-arc = C.create_arc(coord, start=0,
-extent=150, fill="red")
-C.pack()
+#C = Canvas(frame, bg="blue", height=600,
+#width=700)
+#coord = 10, 50, 240, 210
+#arc = C.create_arc(coord, start=0,
+#extent=150, fill="red")
+#C.pack()
+L3 = Label(frame, text="SHOW MAZE HERE")
+L3.pack()
 
 B1 = Button(root, text="Save placeholder", command=popup)
 B1.pack()
