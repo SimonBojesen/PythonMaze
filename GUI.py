@@ -43,7 +43,7 @@ def mazeSize():
     
 
 #Creating a canvas
-C = Canvas(root, bg="blue", height=750,
+C = Canvas(root, bg="blue", height=600,
 width=700)
 coord = 10, 50, 240, 210
 arc = C.create_arc(coord, start=0,
