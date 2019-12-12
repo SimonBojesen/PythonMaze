@@ -112,5 +112,8 @@ search(1, 1)
 stop = time.process_time
 
 print("steps: " + str(stepcount))
-print("Solve algorithm timer:", stop - start)
+try:
+    print("Solve algorithm timer:", stop - start)
+except TypeError:
+    print("TypeError occured") 
 #print("Solve time", end - start)
