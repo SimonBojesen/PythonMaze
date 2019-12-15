@@ -14,7 +14,7 @@ class Model(object):
 
 
 class View(object):
-    @staticmethod
+    
     def input_mazesize(self):
         print ('Welcome!')
         sizeX = int(input("To generate a maze insert a width: "))
@@ -25,11 +25,9 @@ class View(object):
     def endView(self):
         print('Goodbye!')
 
-    @staticmethod
     def input_yes_or_no(self, string):
         return str(input(string + "yes/no: "))
     
-    @staticmethod
     def invalid_input(self, string):
         return str(input("Your input is invalid\n" + string + "yes/no: "))
 
@@ -60,4 +58,4 @@ class Controller(object):
 #when building the GUI call the do this kinda code inside there instead of here :)
 c = Controller(Model(), View())
 maze = c.build_a_maze()
-#c.solve_a_maze(maze)
+c.solve_a_maze(maze)
