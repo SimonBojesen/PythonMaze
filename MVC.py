@@ -5,22 +5,31 @@ class Model(object):
     # def __init__(self, mazesize):
         # self.mazesize = mazesize
 
-    def maze_gen(self, mazesize):
-        return backend_functionality.maze_gen(mazesize)
+    def maze_gen(self, sizeX, sizeY):
+        return backend_functionality.maze_generate(sizeX, sizeY)
+
+    def pretty_print(self, maze):
+        return backend_functionality.pretty_print(maze)
 
 class View(object):
     # user print functionality here
-    def startView(self):
+    def user_input_mazesize(self):
         print ('Welcome!')
+        sizeX = int(input("To generate a maze insert a width: "))
+        sizeY = int(input("To generate a maze insert a height: "))
+        return str(sizeX) + "-" + str(sizeY)
     def endView(self):
         print ('Goodbye!')
 
 class Controller(object):
-    def start(self):
-        v = View()
-        v.startView()
-        size = int(input("To generate a maze insert a mazesize: "))
-        print(size)
+    def __init__(self, model, view):
+        self.view = view
+        self.model = model
 
-c = Controller()
+    def start(self):
+        mazesizes = self.view.user_input_mazesize().split("-")
+        maze = self.model.maze_gen(int(mazesizes[0]), int(mazesizes[1]))
+        self.model.pretty_print(maze)
+
+c = Controller(Model(), View())
 c.start()

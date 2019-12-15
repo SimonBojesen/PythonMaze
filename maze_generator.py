@@ -102,6 +102,9 @@ def read():
         lis = [line.replace("\n","").split(",") for line in f] # create a list of lists
         return lis
     
+def maze_generate(size):
+    return convert(DFS(make_empty_maze(size, size)))
+
 print("dfs: ")
 write(convert(DFS(make_empty_maze(size, size))))
 grid = read()
