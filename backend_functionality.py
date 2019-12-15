@@ -50,8 +50,7 @@ def DFS(maze, coords=(0, 0)):
            (0 <= new_coords[1] < len(maze[0])) and \
            not maze[new_coords[0]][new_coords[1]]:
             maze[coords[0]][coords[1]].append(direction)
-            maze[new_coords[0]][new_coords[1]].append(
-                (-direction[0], -direction[1]))
+            maze[new_coords[0]][new_coords[1]].append((-direction[0], -direction[1]))
             DFS(maze, new_coords)
     return maze
 
@@ -101,3 +100,13 @@ def read():
 
 def maze_generate(sizeX, sizeY):
     return convert(DFS(make_empty_maze(sizeX, sizeY)))
+
+def should_we_solve(selfview, userinput):
+        if userinput == "yes":
+            return True
+        elif userinput == "no":
+            selfview.endView()
+            return False
+        else:
+            yes_or_no = selfview.invalid_input("Should the program run the solving algorithm?\n")
+            should_we_solve(selfview, yes_or_no)

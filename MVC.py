@@ -1,35 +1,62 @@
 import backend_functionality
 
+#We have chosen to use the model as a kind of facade that uses the functionality 
+#in backend_functionality class and returns the output back to the controller. 
 class Model(object):
-    # initialiser for class in python is like a constructor in java
-    # def __init__(self, mazesize):
-        # self.mazesize = mazesize
-
     def maze_gen(self, sizeX, sizeY):
         return backend_functionality.maze_generate(sizeX, sizeY)
 
     def pretty_print(self, maze):
         return backend_functionality.pretty_print(maze)
 
+    def should_solve(self, selfview, userinput):
+        return backend_functionality.should_we_solve(selfview, userinput)
+
+
 class View(object):
-    # user print functionality here
-    def user_input_mazesize(self):
+    @staticmethod
+    def input_mazesize(self):
         print ('Welcome!')
         sizeX = int(input("To generate a maze insert a width: "))
         sizeY = int(input("To generate a maze insert a height: "))
         return str(sizeX) + "-" + str(sizeY)
+    
+    @staticmethod
     def endView(self):
-        print ('Goodbye!')
+        print('Goodbye!')
+
+    @staticmethod
+    def input_yes_or_no(self, string):
+        return str(input(string + "yes/no: "))
+    
+    @staticmethod
+    def invalid_input(self, string):
+        return str(input("Your input is invalid\n" + string + "yes/no: "))
 
 class Controller(object):
     def __init__(self, model, view):
         self.view = view
         self.model = model
 
-    def start(self):
-        mazesizes = self.view.user_input_mazesize().split("-")
+    def build_a_maze(self):
+        mazesizes = self.view.input_mazesize().split("-")
         maze = self.model.maze_gen(int(mazesizes[0]), int(mazesizes[1]))
         self.model.pretty_print(maze)
+        return maze
+
+    def solve_a_maze(self, maze):
+        userinput = self.view.input_yes_or_no("Should the program run the solving algorithm?\n")
+        true_or_false = self.model.should_solve(self.view, userinput)
+        if true_or_false == False:
+            #Ask user if he wants to save the labyrinth for later
+            print("")
+        else:
+            #Run maze through the solver
+            print("")
+        #stuff happens here. Goodnight, sleep sleep, SIMON OUT!
+        
+
 
 c = Controller(Model(), View())
-c.start()
+maze = c.build_a_maze()
+#c.solve_a_maze(maze)
