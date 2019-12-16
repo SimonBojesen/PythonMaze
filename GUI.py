@@ -55,14 +55,18 @@ def mazeSize():
     S2 = simpledialog.askinteger('Mazesize', 'Input x & y', initialvalue="5")
     print(S2)
 
+frame = LabelFrame(root, padx=5, pady=5)
+frame.pack(padx=10, pady=10)
 
-C = Canvas(root, bg="blue", height=750,
+C = Canvas(frame, bg="blue", height=750,
            width=700)
 coord = 10, 50, 240, 210
 arc = C.create_arc(coord, start=0,
                    extent=150, fill="red")
 C.pack()
 
+L3 = Label(frame, text="SHOW MAZE HERE")
+L3.pack()
 
 B1 = Button(root, text="Save placeholder", command=popup)
 B1.pack()
