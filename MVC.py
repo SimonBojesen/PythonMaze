@@ -71,9 +71,10 @@ class Controller(object):
             start = time.process_time()
             self.model.solve_maze()
             stop = time.process_time()
+            elapsedTime = stop-start
             steps = self.model.get_steps()
             print("number of iterations: ", steps)
-            print("time taken to solve the maze: ", stop-start)
+            print("time taken to solve the maze in microseconds: ", elapsedTime*1000000)
         #stuff happens here. Goodnight, sleep sleep, SIMON OUT!
         
 #this stuff here is for testing the code NOTHING ELSE!!!
