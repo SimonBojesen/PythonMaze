@@ -1,4 +1,5 @@
 import backend_functionality
+import time
 
 #We have chosen to use the model as a kind of facade that uses the functionality 
 #in backend_functionality class and returns the output back to the controller. 
@@ -12,9 +13,19 @@ class Model(object):
     def should_solve(self, selfview, userinput):
         return backend_functionality.should_we_solve(selfview, userinput)
 
+    def save_maze(self, maze):
+        return backend_functionality.write(maze)
 
+    def solve_maze(self):
+        return backend_functionality.search(1, 1)
+
+    def set_maze(self, maze):
+        backend_functionality.set_grid(maze)
+
+    def get_steps(self):
+        return backend_functionality.get_steps()
+        
 class View(object):
-    
     def input_mazesize(self):
         print ('Welcome!')
         sizeX = int(input("To generate a maze insert a width: "))
@@ -47,13 +58,24 @@ class Controller(object):
         true_or_false = self.model.should_solve(self.view, userinput)
         if true_or_false == False:
             #Ask user if he wants to save the labyrinth for later
-            print("")
+            userinput = self.view.input_yes_or_no("Should we save the labyrinth for later?\n")
+            true_or_false = self.model.should_solve(self.view, userinput)
+            if true_or_false == False:
+                return maze
+            else:
+                self.model.save_maze(maze)
+                return maze
         else:
             #Run maze through the solver
-            print("")
+            self.model.set_maze(maze)
+            start = time.process_time()
+            self.model.solve_maze()
+            stop = time.process_time()
+            steps = self.model.get_steps()
+            print("number of iterations: ", steps)
+            print("time taken to solve the maze: ", stop-start)
         #stuff happens here. Goodnight, sleep sleep, SIMON OUT!
         
-
 #this stuff here is for testing the code NOTHING ELSE!!!
 #when building the GUI call the do this kinda code inside there instead of here :)
 c = Controller(Model(), View())

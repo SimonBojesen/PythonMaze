@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-stepsMinimum = pd.read_csv('StepsPlotted/StepsMinimum.csv')
-stepsMaximum = pd.read_csv('StepsPlotted/StepsMaximum.csv')
-stepsAverage = pd.read_csv('StepsPlotted/StepsAverage.csv')
+stepsMinimum = pd.read_csv('TimePlotted/StepsMinimum.csv')
+stepsMaximum = pd.read_csv('TimePlotted/StepsMaximum.csv')
+stepsAverage = pd.read_csv('TimePlotted/StepsAverage.csv')
 
 mazesize = np.array(stepsMinimum['MazeSize'])
 stepsMin = np.array(stepsMinimum['Steps(min)']) # reads data from a csv file
@@ -22,5 +22,5 @@ plt.title("Plot showing max, mini, and average iterations for solving the maze."
 plt.xlabel("mazesize(x,y)")
 plt.ylabel("Steps(iterations)")
 plt.legend()
-plt.savefig('StepsPlotted/StepsPlotted.png')
+plt.savefig('TimePlotted/TimePlotted.png')
 plt.show()

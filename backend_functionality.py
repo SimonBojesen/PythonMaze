@@ -9,7 +9,6 @@ import platform
 # this is why we start at -1 so that the first time it gets called it increments to 0 steps
 stepcount = -1
 grid = []
-
 # needed for DFS...cls
 sys.setrecursionlimit(10000)
 
@@ -110,3 +109,13 @@ def should_we_solve(selfview, userinput):
         else:
             yes_or_no = selfview.invalid_input("Should the program run the solving algorithm?\n")
             should_we_solve(selfview, yes_or_no)
+
+def set_grid(maze):
+    global grid
+    grid = maze
+
+def get_steps():
+    global stepcount
+    steps = stepcount
+    stepcount = -1
+    return steps
