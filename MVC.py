@@ -16,6 +16,9 @@ class Model(object):
     def save_maze(self, maze):
         return backend_functionality.write(maze)
 
+    def load_maze(self, maze):
+        return backend_functionality.read()
+
     def solve_maze(self):
         return backend_functionality.search(1, 1)
 
