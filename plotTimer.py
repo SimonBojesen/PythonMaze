@@ -18,7 +18,7 @@ plt.plot(mazesize, timeMax, marker="o", label="Maximum time to solve")
 plt.plot(mazesize, timeAvg, marker="o", label="Average time to solve") 
 # Can not plot becuase x & y needs to be same size
 
-plt.title("Plot showing max, mini, and average iterations for solving the maze.")
+plt.title("A plot showing the maximum, minimum and average time of the simple recursive algorithm for solving the maze.")
 plt.xlabel("mazesize(x,y)")
 plt.ylabel("Time(μs)")
 plt.legend()
