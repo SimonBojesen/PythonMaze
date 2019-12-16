@@ -3,11 +3,12 @@ from PIL import ImageTk, Image
 from tkinter import Tk, filedialog, simpledialog
 import platform
 import csv
+import MVC
 
 # Root window created, can add more later
 # windows within windows.
 root = Tk()
-
+c = MVC.Controller(MVC.Model(), MVC.View())
 
 class Window(Frame):
 
@@ -51,9 +52,21 @@ def fileBrowse(): #open a browse window and display that file on screen
 # B2.pack()
 
 
-def mazeSize():
-    S2 = simpledialog.askinteger('Mazesize', 'Input x & y', initialvalue="5")
-    print(S2)
+def mazeSizeX():
+    X = simpledialog.askinteger('Mazesize', 'Input x', initialvalue="5")
+    return X
+
+def mazeSizeY():
+    Y = simpledialog.askinteger('Mazesize', 'Input y', initialvalue="5")
+    return Y
+
+def maze_gen():
+    X = mazeSizeX()
+    Y = mazeSizeY()
+    maze = c.build_a_maze_GUI(X, Y)
+    
+
+
 
 frame = LabelFrame(root, padx=5, pady=5)
 frame.pack(padx=10, pady=10)
@@ -61,12 +74,7 @@ frame.pack(padx=10, pady=10)
 C = Canvas(frame, bg="blue", height=750,
            width=700)
 coord = 10, 50, 240, 210
-arc = C.create_arc(coord, start=0,
-                   extent=150, fill="red")
 C.pack()
-
-L3 = Label(frame, text="SHOW MAZE HERE")
-L3.pack()
 
 B1 = Button(root, text="Save placeholder", command=popup)
 B1.pack()
@@ -107,8 +115,7 @@ menubar.add_cascade(label="Help", menu=help)
 # Maze menu dropdown
 maze = Menu(menubar, tearoff=0)
 # added dropdown options to maze
-maze.add_command(label="New")
-maze.add_command(label="Size", command=mazeSize)
+maze.add_command(label="New", command=maze_gen)
 maze.add_command(label="Load", command=fileBrowse)  # select a file to load
 maze.add_command(label="Run")
 # added "Maze" to menu
@@ -121,3 +128,6 @@ root.config(menu=menubar)
 app = Window(root)
 # mainloop
 root.mainloop()
+
+
+

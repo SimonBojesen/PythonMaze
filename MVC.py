@@ -56,6 +56,10 @@ class Controller(object):
         self.model.pretty_print(maze)
         return maze
 
+    def build_a_maze_GUI(self, x, y):
+        maze = self.model.maze_gen(x, y)
+        return maze
+
     def solve_a_maze(self, maze):
         userinput = self.view.input_yes_or_no("Should the program run the solving algorithm?\n")
         true_or_false = self.model.should_solve(self.view, userinput)
@@ -82,6 +86,6 @@ class Controller(object):
         
 #this stuff here is for testing the code NOTHING ELSE!!!
 #when building the GUI call the do this kinda code inside there instead of here :)
-c = Controller(Model(), View())
-maze = c.build_a_maze()
-c.solve_a_maze(maze)
+#c = Controller(Model(), View())
+#maze = c.build_a_maze()
+#c.solve_a_maze(maze)

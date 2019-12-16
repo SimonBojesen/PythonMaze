@@ -87,13 +87,13 @@ def write(maze):
         newline=''
     else:
         newline=None
-    with open("maze.csv", 'w', newline=newline) as output_file:
+    with open("mazes.csv", 'w', newline=newline) as output_file:
         output_writer = csv.writer(output_file)
 
         output_writer.writerows(maze)
 
-def read(path):
-    with open(path) as f:
+def read():
+    with open("SavedMazes/mazes.csv") as f:
         lis = [line.replace("\n","").split(",") for line in f] # create a list of lists
         return lis
 
