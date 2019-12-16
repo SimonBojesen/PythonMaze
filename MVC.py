@@ -68,9 +68,9 @@ class Controller(object):
         else:
             #Run maze through the solver
             self.model.set_maze(maze)
-            start = time.process_time()
+            start = time.time()
             self.model.solve_maze()
-            stop = time.process_time()
+            stop = time.time()
             elapsedTime = stop-start
             steps = self.model.get_steps()
             print("number of iterations: ", steps)

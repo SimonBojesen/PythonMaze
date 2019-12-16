@@ -110,9 +110,9 @@ write(convert(DFS(make_empty_maze(size, size))))
 grid = read()
 pretty_print(grid)
 
-start = time.process_time
+start = time.time()
 search(1, 1)
-stop = time.process_time
+stop = time.time()
 
 print("steps: " + str(stepcount))
 try:
