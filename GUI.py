@@ -45,7 +45,6 @@ def fileBrowse(): #open a browse window and display that file on screen
     L1.pack()
     my_image = ImageTk.PhotoImage(Image.open(root.filename))
     L2 = Label(frame, image=my_image)# shows a Image of the opened file
-
     L2.pack()
 
 # B2 = my_btn = Button(root, text="Open File", command=fileBrowse)
@@ -64,6 +63,12 @@ def maze_gen():
     X = mazeSizeX()
     Y = mazeSizeY()
     maze = c.build_a_maze_GUI(X, Y)
+
+    file1 = filedialog.askopenfile() # open file browser, needs to take mazes.csv path, without popup of browsning
+    file2 = file1.name
+    f = open(file2)
+    label4 = Label(frame, text=f.read(), font=('arial', 20, 'italic'))
+    label4.pack()
     
 
 
@@ -71,10 +76,8 @@ def maze_gen():
 frame = LabelFrame(root, padx=5, pady=5)
 frame.pack(padx=10, pady=10)
 
-C = Canvas(frame, bg="blue", height=750,
-           width=700)
-coord = 10, 50, 240, 210
-C.pack()
+#C = Canvas(frame, bg="blue", height=600, width=600)
+#C.pack()
 
 B1 = Button(root, text="Save placeholder", command=popup)
 B1.pack()
