@@ -39,12 +39,12 @@ def popup():
 
 
 def fileBrowse(): #open a browse window and display that file on screen
-    root.filename = filedialog.askopenfilename(initialdir = "/SavedMazes", title = "Select a File", filetype = (("csv","*csv"), ("All Files", "*.*")))
+    global my_image
+    root.filename = filedialog.askopenfilename(initialdir = "/", title = "Select a File", filetype = (("jpeg","*jpg"), ("All Files", "*.*")))
     L1 = Label(frame, text=root.filename) # shows the location of the file opened
     L1.pack()
-    file3 = root.filename
-    f = open(file3)
-    L2 = Label(frame, text=f.read(), font=('arial', 20, 'italic'))
+    my_image = ImageTk.PhotoImage(Image.open(root.filename))
+    L2 = Label(frame, image=my_image)# shows a Image of the opened file
     L2.pack()
 
 # B2 = my_btn = Button(root, text="Open File", command=fileBrowse)
@@ -60,6 +60,7 @@ def mazeSizeY():
     return Y
 
 def maze_gen():
+    label4 = Label(frame, text="", font=('arial', 20, 'italic'))
     X = mazeSizeX()
     Y = mazeSizeY()
     maze = c.build_a_maze_GUI(X, Y)
@@ -77,7 +78,6 @@ def maze_gen():
 
 frame = LabelFrame(root, padx=5, pady=5)
 frame.pack(padx=10, pady=10)
-
 #C = Canvas(frame, bg="blue", height=600, width=600)
 #C.pack()
 
@@ -100,23 +100,6 @@ file.add_separator()
 file.add_command(label="Exit", command=root.quit)
 # added "file" to menu
 menubar.add_cascade(label="File", menu=file)
-edit = Menu(menubar, tearoff=0)
-edit.add_command(label="Undo")
-
-edit.add_separator()
-# added dropdown options to edit
-edit.add_command(label="Cut")
-edit.add_command(label="Copy")
-edit.add_command(label="Paste")
-edit.add_command(label="Delete")
-edit.add_command(label="Select All")
-
-# Add "Edit" to menu
-menubar.add_cascade(label="Edit", menu=edit)
-help = Menu(menubar, tearoff=0)
-help.add_command(label="About")
-menubar.add_cascade(label="Help", menu=help)
-
 # Maze menu dropdown
 maze = Menu(menubar, tearoff=0)
 # added dropdown options to maze
