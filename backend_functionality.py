@@ -3,6 +3,7 @@ import sys
 import time
 import csv
 import platform
+import os, os.path
 
 # this is a stepcounter
 # it increments by 1 everytime the search function gets called
@@ -87,10 +88,19 @@ def write(maze):
         newline=''
     else:
         newline=None
-    with open("mazes.csv", 'w', newline=newline) as output_file:
+    #for filename in os.listdir('SavedMazes'):
+    #    number + 1
+    files = os.listdir("SavedMazes")
+    number = len(files) + 1
+    filename = "SavedMazes/mazes_" + str(number) + ".csv"
+    with open(filename, 'w', newline=newline) as output_file:
         output_writer = csv.writer(output_file)
-
         output_writer.writerows(maze)
+        return filename
+
+def count_saved_mazes():
+    files = os.listdir("SavedMazes")
+    print(len(files))
 
 def read():
     with open("SavedMazes/mazes.csv") as f:

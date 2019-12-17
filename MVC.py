@@ -28,6 +28,9 @@ class Model(object):
     def get_steps(self):
         return backend_functionality.get_steps()
         
+    def count(self):
+        backend_functionality.count_saved_mazes()
+
 class View(object):
     def input_mazesize(self):
         print ('Welcome!')
@@ -59,7 +62,10 @@ class Controller(object):
     def build_a_maze_GUI(self, x, y):
         maze = self.model.maze_gen(x, y)
         return maze
-
+    
+    def save_maze(self, maze):
+        return self.model.save_maze(maze)
+        
     def solve_a_maze(self, maze):
         userinput = self.view.input_yes_or_no("Should the program run the solving algorithm?\n")
         true_or_false = self.model.should_solve(self.view, userinput)
@@ -87,5 +93,6 @@ class Controller(object):
 #this stuff here is for testing the code NOTHING ELSE!!!
 #when building the GUI call the do this kinda code inside there instead of here :)
 #c = Controller(Model(), View())
+#c.count()
 #maze = c.build_a_maze()
 #c.solve_a_maze(maze)

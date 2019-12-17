@@ -63,13 +63,16 @@ def maze_gen():
     X = mazeSizeX()
     Y = mazeSizeY()
     maze = c.build_a_maze_GUI(X, Y)
-    # When x & y input has been sent write a new maze to mazes.csv file 
-    #Then read the file and the text will be showed in label4.
-    file1 = filedialog.askopenfile() # open file browser, needs to take mazes.csv path, without popup of browsning
-    file2 = file1.name
-    f = open(file2)
+    filename = c.save_maze(maze)
+    f = open(filename)
     label4 = Label(frame, text=f.read(), font=('arial', 20, 'italic'))
     label4.pack()
+
+    
+    #file1 = filedialog.askopenfile() # open file browser, needs to take mazes.csv path, without popup of browsning
+    #file2 = file1.name
+    #f = open(file2)
+    
     
 
 
