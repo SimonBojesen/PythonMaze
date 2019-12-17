@@ -38,19 +38,6 @@ def popup():
         output_writer.writerows(S1)
 
 
-def fileBrowse(): #open a browse window and display that file on screen
-    global my_image
-    root.filename = filedialog.askopenfilename(initialdir = "/", title = "Select a File", filetype = (("jpeg","*jpg"), ("All Files", "*.*")))
-    L1 = Label(frame, text=root.filename) # shows the location of the file opened
-    L1.pack()
-    my_image = ImageTk.PhotoImage(Image.open(root.filename))
-    L2 = Label(frame, image=my_image)# shows a Image of the opened file
-    L2.pack()
-
-# B2 = my_btn = Button(root, text="Open File", command=fileBrowse)
-# B2.pack()
-
-
 def mazeSizeX():
     X = simpledialog.askinteger('Mazesize', 'Input x', initialvalue="5")
     return X
@@ -60,24 +47,32 @@ def mazeSizeY():
     return Y
 
 def maze_gen():
-    label4 = Label(frame, text="", font=('arial', 20, 'italic'))
+    global L1
+    global L2
     X = mazeSizeX()
     Y = mazeSizeY()
     maze = c.build_a_maze_GUI(X, Y)
     filename = c.save_maze(maze)
+    L1.config(text=filename)
     f = open(filename)
-    label4 = Label(frame, text=f.read(), font=('arial', 20, 'italic'))
-    label4.pack()
-
-
-    #file1 = filedialog.askopenfile() # open file browser, needs to take mazes.csv path, without popup of browsning
-    #file2 = file1.name
-    #f = open(file2)
+    L2.config(text=f.read())
     
-    
+def fileBrowse(): #open a browse window and display that file on screen
+    global L1
+    global L2
+    root.filename = filedialog.askopenfilename(initialdir = "/SavedMazes", title = "Select a File", filetype = (("csv","*csv"), ("All Files", "*.*")))
+    #L1 = Label(frame, text=root.filename) # shows the location of the file opened
+    L1.config(text=root.filename)
+    file3 = root.filename
+    f = open(file3)
+    L2.config(text=f.read())
 
 frame = LabelFrame(root, padx=5, pady=5)
 frame.pack(padx=10, pady=10)
+L1 = Label(frame)
+L2 = Label(frame)
+L1.pack()
+L2.pack()
 #C = Canvas(frame, bg="blue", height=600, width=600)
 #C.pack()
 
