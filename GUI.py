@@ -39,12 +39,12 @@ def popup():
 
 
 def fileBrowse(): #open a browse window and display that file on screen
-    global my_image
-    root.filename = filedialog.askopenfilename(initialdir = "/", title = "Select a File", filetype = (("jpeg","*jpg"), ("All Files", "*.*")))
+    root.filename = filedialog.askopenfilename(initialdir = "/SavedMazes", title = "Select a File", filetype = (("csv","*csv"), ("All Files", "*.*")))
     L1 = Label(frame, text=root.filename) # shows the location of the file opened
     L1.pack()
-    my_image = ImageTk.PhotoImage(Image.open(root.filename))
-    L2 = Label(frame, image=my_image)# shows a Image of the opened file
+    file3 = root.filename
+    f = open(file3)
+    L2 = Label(frame, text=f.read(), font=('arial', 20, 'italic'))
     L2.pack()
 
 # B2 = my_btn = Button(root, text="Open File", command=fileBrowse)
