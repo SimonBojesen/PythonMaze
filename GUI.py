@@ -68,14 +68,12 @@ def maze_gen():
     label4 = Label(frame, text=f.read(), font=('arial', 20, 'italic'))
     label4.pack()
 
-    
+
     #file1 = filedialog.askopenfile() # open file browser, needs to take mazes.csv path, without popup of browsning
     #file2 = file1.name
     #f = open(file2)
     
     
-
-
 
 frame = LabelFrame(root, padx=5, pady=5)
 frame.pack(padx=10, pady=10)
