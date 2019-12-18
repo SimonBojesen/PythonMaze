@@ -6,12 +6,11 @@ class TestMazeSolver(unittest.TestCase):
         self.sizeX = 5
         self.sizeY = 5
         self.maze = backend_functionality.maze_generate(self.sizeX, self.sizeY)
-        self.solve = backend_functionality.search(self.sizeX,self.sizeY)
 
-    def test_solver_found_goal(self): #Test if solver finds goal and prints ("found at %d,%d" % (x, y))
-        self.assertEqual(int(self.maze[len(self.maze)-2][len(self.maze[0])-2]), 2, "Test failed")
-        self.assertEqual(int(self.solve[len(self.solve)-2][len(self.solve[0])-2]), 2, "Test failed")
-        #self.assertTrue(True,("found at %d,%d" % (self.sizeX, self.sizeY)))
-        #("found at %d,%d" % (x, y))
+    def test_solver_found_goal(self): #Test if solver finds goal and returns true
+        backend_functionality.set_grid(self.maze)
+        true_or_false = backend_functionality.search(1, 1)
+        self.assertTrue(true_or_false, 'Test failed')
+        
 if __name__ == '__main__':
     unittest.main()
