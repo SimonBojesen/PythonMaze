@@ -7,12 +7,12 @@ stepcount = 3
 class TestBackend(unittest.TestCase):
 
     def test_increment(self):
-        global stepcount
-        backend_functionality.increment()
-        self.assertEqual(stepcount, 4)
+        stepcount=1
+        stepcount_incremented = backend_functionality.increment(stepcount)
+        self.assertEqual(stepcount_incremented, 2)
 
     def test_get_steps(self):
-        self.assertNotEqual(backend_functionality.get_steps(), -1)
+        self.assertNotEqual(backend_functionality.get_steps(), 0)
 
 
 if __name__ == '__main__':

@@ -92,7 +92,7 @@ class Controller(object):
         
 #this stuff here is for testing the code NOTHING ELSE!!!
 #when building the GUI call the do this kinda code inside there instead of here :)
-#c = Controller(Model(), View())
+c = Controller(Model(), View())
 #c.count()
-#maze = c.build_a_maze()
-#c.solve_a_maze(maze)
+maze = c.build_a_maze()
+c.solve_a_maze(maze)
