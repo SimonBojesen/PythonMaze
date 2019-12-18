@@ -3,7 +3,7 @@ from tkinter import Tk, filedialog, simpledialog, Frame, LabelFrame, Label, Butt
 import platform
 import csv
 import MVC
-
+import threading
 # Root window created, can add more later
 # windows within windows.
 root = Tk()
@@ -44,8 +44,14 @@ def mazeSizeX():
 def mazeSizeY():
     Y = simpledialog.askinteger('Mazesize', 'Input y', initialvalue="5")
     return Y
-
 def maze_gen():
+    threads = []
+    for i in range(1):
+        t = threading.Thread(target=worker_maze_gen)
+        threads.append(t)
+        t.start()
+
+def worker_maze_gen():
     global L1
     global L2
     X = mazeSizeX()

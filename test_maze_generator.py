@@ -15,5 +15,8 @@ class TestMazeGen(unittest.TestCase):
         self.assertEqual(len(self.maze), 2*self.sizeY+1, "Test failed")
         self.assertEqual(len(self.maze[0]), 2*self.sizeX+1, "Test failed")
 
+    def test_not_empty(self):
+        self.assertTrue(self.maze is not [], "Test failed")
+
 if __name__ == '__main__':
     unittest.main()

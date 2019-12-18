@@ -5,6 +5,7 @@ import csv
 import platform
 import os
 import os.path
+import threading
 
 # this is a stepcounter
 # it increments by 1 everytime the search function gets called
@@ -117,8 +118,6 @@ def write(maze):
         newline = ''
     else:
         newline = None
-    # for filename in os.listdir('SavedMazes'):
-    #    number + 1
     files = os.listdir("SavedMazes")
     number = len(files) + 1
     filename = "SavedMazes/mazes_" + str(number) + ".csv"
@@ -136,7 +135,13 @@ def read(filename):
         lis = [line.replace("\n", "").split(",") for line in f]  # create a list of lists
         return lis
 
-def maze_generate(sizeX, sizeY):
+#tried doing the mazegeneration with a worker thread
+#but it throws errors because we dont seem to get the right output
+def worker_maze_gen(sizeX, sizeY):
+    t = threading.Thread(target=maze_generate(sizeX, sizeY))
+    t.start()
+
+def maze_generate(sizeX, sizeY): 
     return convert(DFS(make_empty_maze(sizeX, sizeY)))
 
 def should_we_solve(selfview, userinput):

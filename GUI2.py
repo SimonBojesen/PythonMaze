@@ -1,6 +1,6 @@
 
 from tkinter import Tk, Canvas, Frame, Label, Entry, Button, Scrollbar, Listbox, Menu, filedialog, simpledialog, END, Text, messagebox
-
+import threading
 import MVC
 import os
 window_width = 1500
@@ -43,7 +43,6 @@ def mazeSizeY():
         raise MazeSizeTooHigh(Y)
     return Y
 
-
 def maze_gen():
     X = mazeSizeX()
     Y = mazeSizeY()
@@ -54,7 +53,6 @@ def maze_gen():
     maze_text_widget.delete('1.0', END)
     maze_text_widget.insert(END, f.read())
     load_mazes()
-
 
 def solve_maze():
     global mazes
@@ -76,7 +74,6 @@ def load_mazes():
         listbox_mazes.insert(END, maze)
     listbox_mazes.place(relwidth=1, relheight=1)
 
-
 def get_maze():
     global mazes
     path = 'SavedMazes/'
@@ -84,12 +81,12 @@ def get_maze():
     tuple_index = listbox_mazes.curselection()
     for value in tuple_index:
         maze_index = value
-    filename = mazes[maze_index]
-    filename_label.config(text=filename)
-    f = open(path + filename)
-    maze_text_widget.delete('1.0', END)
-    maze_text_widget.insert(END, f.read())
-
+    if mazes != []:
+        filename = mazes[maze_index]
+        filename_label.config(text=filename)
+        f = open(path + filename)
+        maze_text_widget.delete('1.0', END)
+        maze_text_widget.insert(END, f.read())
 
 def update_observer_text(text):
     observer_text_widget.delete('1.0', END)
@@ -119,7 +116,6 @@ class Publisher:
     def dispatch(self, message):
         for subscriber in self.subscribers:
             subscriber.update(message)
-
 
 pub = Publisher()
 sub = Subscriber(update_observer_text)
