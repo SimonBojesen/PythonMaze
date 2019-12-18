@@ -11,13 +11,12 @@ import os.path
 # this is why we start at -1 so that the first time it gets called it increments to 0 steps
 stepcount = -1
 grid = []
+string = 'Solving:\n'
 # needed for DFS...cls
 sys.setrecursionlimit(10000)
 
 # Each maze cell contains a tuple of directions of cells to which it is connected
 # Takes a maze and converts it to an array of X's and blanks to represent walls, etc
-
-
 def convert(maze):
     pretty_maze = [["1"]*(2*len(maze[0])+1) for a in range(2*len(maze)+1)]
     for y, row in enumerate(maze):
@@ -29,8 +28,6 @@ def convert(maze):
     return pretty_maze
 
 # Takes a converted maze and pretty prints it
-
-
 def pretty_print(maze):
     for a in maze:
         string = ""
@@ -40,16 +37,12 @@ def pretty_print(maze):
     print
 
 # Returns an empty maze of given size
-
-
 def make_empty_maze(width, height):
     maze = [[[] for b in range(width)] for a in range(height)]
     return maze
 
 # Recursive backtracker.
 # Looks at its neighbors randomly, if unvisitied, visit and recurse
-
-
 def DFS(maze, coords=(0, 0)):
     directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
     shuffle(directions)
@@ -68,7 +61,6 @@ def DFS(maze, coords=(0, 0)):
 def search(x, y):
     if grid[x][y] == '2':
         print("found at %d,%d" % (x, y))
-        # Time end here? yes
         return True
     elif grid[x][y] == '1':
         print('wall at %d,%d' % (x, y))
@@ -90,11 +82,35 @@ def search(x, y):
         return True
     return False
 
+def search_GUI(x, y, observer):
+    global string
+    if grid[x][y] == '2':
+        string += 'found at %d,%d' % (x, y) + '\n'
+        observer.dispatch(string)
+        return True
+    elif grid[x][y] == '1':
+        string += 'wall at %d,%d' % (x, y) + '\n'
+        return (False)
+    elif grid[x][y] == '3':
+        string += 'visited at %d,%d' % (x, y) + '\n'
+        return (False)
+    increment()
+    string += 'visiting %d,%d' % (x, y) + '\n'
+
+    # mark as visited
+    grid[x][y] = '3'
+
+    # explore neighbors clockwise starting by the one on the right
+    if ((x < (len(grid)-1) and search_GUI(x+1, y, observer))
+        or (y > 0 and search_GUI(x, y-1, observer))
+        or (x > 0 and search_GUI(x-1, y, observer))
+        or (y < len(grid)-1 and search_GUI(x, y+1, observer))):
+        return True
+    return False
 
 def increment():
     global stepcount
     stepcount = stepcount+1
-
 
 def write(maze):
     if platform.system() == 'Windows':
@@ -111,22 +127,17 @@ def write(maze):
         output_writer.writerows(maze)
         return filename
 
-
 def count_saved_mazes():
     files = os.listdir("SavedMazes")
     print(len(files))
 
-
-def read():
-    with open("SavedMazes/mazes.csv") as f:
-        lis = [line.replace("\n", "").split(",")
-               for line in f]  # create a list of lists
+def read(filename):
+    with open("SavedMazes/" + filename) as f:
+        lis = [line.replace("\n", "").split(",") for line in f]  # create a list of lists
         return lis
-
 
 def maze_generate(sizeX, sizeY):
     return convert(DFS(make_empty_maze(sizeX, sizeY)))
-
 
 def should_we_solve(selfview, userinput):
     if userinput == "yes":
@@ -139,16 +150,13 @@ def should_we_solve(selfview, userinput):
             "Should the program run the solving algorithm?\n")
         should_we_solve(selfview, yes_or_no)
 
-
 def set_grid(maze):
     global grid
     grid = maze
 
-
 def get_steps():
     global stepcount
     return stepcount
-
 
 def reset_steps():
     global stepcount

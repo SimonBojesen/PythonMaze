@@ -7,6 +7,9 @@ class Model(object):
     def maze_gen(self, sizeX, sizeY):
         return backend_functionality.maze_generate(sizeX, sizeY)
 
+    def solve_a_maze_GUI(self, observer):
+        return backend_functionality.search_GUI(1, 1, observer)
+
     def pretty_print(self, maze):
         return backend_functionality.pretty_print(maze)
 
@@ -16,8 +19,8 @@ class Model(object):
     def save_maze(self, maze):
         return backend_functionality.write(maze)
 
-    def load_maze(self, maze):
-        return backend_functionality.read()
+    def load_maze(self, filename):
+        return backend_functionality.read(filename)
 
     def solve_maze(self):
         return backend_functionality.search(1, 1)
@@ -56,20 +59,13 @@ class Controller(object):
         self.view = view
         self.model = model
 
-    def build_a_maze(self):
+    def build_a_maze_CONSOLE(self):
         mazesizes = self.view.input_mazesize().split("-")
         maze = self.model.maze_gen(int(mazesizes[0]), int(mazesizes[1]))
         self.model.pretty_print(maze)
         return maze
 
-    def build_a_maze_GUI(self, x, y):
-        maze = self.model.maze_gen(x, y)
-        return maze
-    
-    def save_maze(self, maze):
-        return self.model.save_maze(maze)
-        
-    def solve_a_maze(self, maze):
+    def solve_a_maze_CONSOLE(self, maze):
         userinput = self.view.input_yes_or_no("Should the program run the solving algorithm?\n")
         true_or_false = self.model.should_solve(self.view, userinput)
         if true_or_false == False:
@@ -92,10 +88,26 @@ class Controller(object):
             self.model.reset_steps()
             print("number of iterations: ", steps)
             print("time taken to solve the maze in microseconds: ", elapsedTime*1000000)
+
+    def build_a_maze_GUI(self, x, y):
+        maze = self.model.maze_gen(x, y)
+        return maze
+    
+    def solve_a_maze_GUI(self, observer, maze):
+        self.model.set_maze(maze)
+        return self.model.solve_a_maze_GUI(observer)
+
+    def save_maze(self, maze):
+        return self.model.save_maze(maze)
+        
+    def read_maze(self, filename):
+        return self.model.load_maze(filename)
+
+    
         
         
 #this stuff here is for testing the code NOTHING ELSE!!!
 #when building the GUI call the do this kinda code inside there instead of here :)
 #c = Controller(Model(), View())
-#maze = c.build_a_maze()
-#c.solve_a_maze(maze)
+#maze = c.build_a_maze_CONSOLE()
+#c.solve_a_maze_CONSOLE(maze)

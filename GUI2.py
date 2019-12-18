@@ -1,19 +1,21 @@
-from tkinter import Tk, Canvas, Frame, Label, Entry, Button, Scrollbar, Listbox, Menu, filedialog, simpledialog, END
+from tkinter import Tk, Canvas, Frame, Label, Entry, Button, Scrollbar, Listbox, Menu, filedialog, simpledialog, END, Text
 import MVC
 import os
 window_width = 1500
-windows_height = 700
+windows_height = 850
 
 mazes = []
 c = MVC.Controller(MVC.Model(), MVC.View())
 
 def mazeSizeX():
-    X = simpledialog.askinteger('Mazesize', 'Input x', initialvalue='5')
-    return X
+    X = simpledialog.askinteger('Mazesize', 'Input x', initialvalue=5, minvalue=5, maxvalue=5)
+    if X <= 30 and X >= 5:
+        return X
 
 def mazeSizeY():
-    Y = simpledialog.askinteger('Mazesize', 'Input y', initialvalue='5')
-    return Y
+    Y = simpledialog.askinteger('Mazesize', 'Input y', initialvalue=5, minvalue=5, maxvalue=5)
+    if Y <= 30 and Y >= 5:
+        return Y
 
 def maze_gen():
     X = mazeSizeX()
@@ -22,8 +24,20 @@ def maze_gen():
     filename = c.save_maze(maze)
     filename_label.config(text=filename)
     f = open(filename)
-    maze_label.config(text=f.read())
+    maze_text_widget.insert(END, f.read())
+    #maze_label.config(text=f.read())
     load_mazes()
+
+def solve_maze():
+    global mazes
+    maze_index = 0
+    tuple_index = listbox_mazes.curselection() 
+    for value in tuple_index:
+        maze_index = value
+    filename = mazes[maze_index]
+    maze = c.read_maze(filename)
+    c.solve_a_maze_GUI(pub, maze)
+
 
 def load_mazes():
     global mazes
@@ -43,10 +57,12 @@ def get_maze():
     filename = mazes[maze_index]
     filename_label.config(text=filename)
     f = open(path + filename)
-    maze_label.config(text=f.read())
+    maze_text_widget.delete('1.0', END)
+    maze_text_widget.insert(END, f.read())
     
 def update_observer_text(text):
-    observer_label.config(text=text)
+    observer_text_widget.delete('1.0', END)
+    observer_text_widget.insert(END, text)
 
 class Subscriber:
     def __init__(self, update_observer_text):
@@ -78,17 +94,17 @@ canvas.pack()
 main_frame = Frame(root, bg='#4C7676')
 main_frame.place(relwidth=0.5, relheight=1, relx=0.25)
 filename_frame = Frame(main_frame, bd=1, bg='black')
-filename_frame.place(relwidth=0.8, relheight=0.05, relx=0.1)
+filename_frame.place(relwidth=0.9, relheight=0.05, relx=0.05)
 filename_label = Label(filename_frame, bg='beige')
 filename_label.place(relwidth=1, relheight=1)
 maze_frame = Frame(main_frame, bd=1, bg='black')
-maze_frame.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.05)
-maze_label = Label(maze_frame)
-maze_label.place(relwidth=1, relheight=1)
+maze_frame.place(relwidth=0.9, relheight=0.8, relx=0.05, rely=0.05)
+maze_text_widget = Text(maze_frame, font=('verdana', 7))
+maze_text_widget.place(relwidth=1, relheight=1)
 button_create = Button(main_frame, text='Create maze', command=maze_gen, bg='#5AA04B', fg='black', activebackground='#244E1B', font=('verdana', 12))
-button_create.place(relwidth=0.4, relheight=0.08, relx=0.1, rely=0.85)
-button_solve = Button(main_frame, text='Solve maze', command="solve_single_mazes", bg='#5AA04B', fg='black', activebackground='#244E1B', font=('verdana', 12))
-button_solve.place(relwidth=0.4, relheight=0.08, relx=0.5, rely=0.85)
+button_create.place(relwidth=0.45, relheight=0.08, relx=0.05, rely=0.85)
+button_solve = Button(main_frame, text='Solve maze', command=solve_maze, bg='#5AA04B', fg='black', activebackground='#244E1B', font=('verdana', 12))
+button_solve.place(relwidth=0.45, relheight=0.08, relx=0.5, rely=0.85)
 
 #here we have the left frame where we have tried to use observer pattern
 #we write stuff to the user in here like we would normally do in the console
@@ -98,8 +114,8 @@ top_label_left = Label(left_frame, text='Observer', bg='#4C7676', font=('verdana
 top_label_left.place(relx=0.1, rely=0.01)
 observer_frame_padding = Frame(left_frame, bd=1, bg='black')
 observer_frame_padding.place(relx=0.1, rely=0.05, relwidth=0.8, relheight=0.88)
-observer_label = Label(observer_frame_padding, font=('verdana', 10))
-observer_label.place(relwidth=1, relheight=1)
+observer_text_widget = Text(observer_frame_padding, font=('verdana', 10))
+observer_text_widget.place(relwidth=1, relheight=1)
 
 right_frame = Frame(root, bg='#4C7676')
 right_frame.place(relwidth=0.25, relheight=1, relx=0.75)
@@ -114,4 +130,5 @@ select_maze = Button(right_frame, text='Select maze', command=get_maze, bg='#5AA
 select_maze.place(relx=0.1, rely=0.85, relwidth=0.8, relheight=0.08)
 
 load_mazes()
+get_maze()
 root.mainloop()
