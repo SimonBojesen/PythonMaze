@@ -1,6 +1,5 @@
-from tkinter import *
 from PIL import ImageTk, Image
-from tkinter import Tk, filedialog, simpledialog
+from tkinter import Tk, filedialog, simpledialog, Frame, LabelFrame, Label, Button, Menu
 import platform
 import csv
 import MVC
