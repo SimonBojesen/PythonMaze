@@ -2,7 +2,6 @@ import unittest
 import test_backend_functionality
 import test_maze_generator
 import test_Maze_Solver
-#test_exceptions doesnt work unfortunately
 import test_exceptions
 
 if __name__ == '__main__':
@@ -14,5 +13,4 @@ if __name__ == '__main__':
     unittest.TextTestRunner(verbosity=2).run(tests1)
     unittest.TextTestRunner(verbosity=2).run(tests2)
     unittest.TextTestRunner(verbosity=2).run(tests3)
-    #unittest.TextTestRunner(verbosity=2).run(tests4)
-
+    # unittest.TextTestRunner(verbosity=2).run(tests4)
