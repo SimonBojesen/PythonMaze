@@ -63,8 +63,7 @@ frame_maze_list_outer.place(relx=0.1, rely=0.14, relwidth=0.65, relheight=0.635)
 frame_maze_list = Frame(frame_maze_list_outer, bd=1, bg="white")
 frame_maze_list.place(relwidth=1, relheight=1)
 scrollbar = Scrollbar(frame_maze_list)
-Listbox_maze_list = Listbox(
-frame_maze_list, yscrollcommand=scrollbar.set, selectbackground="brown")
+Listbox_maze_list = Listbox(frame_maze_list, yscrollcommand=scrollbar.set, selectbackground="brown")
 button_select_maze = Button(frame_right_side, text='Select maze', command="SELECT MAZE HERE", bg='brown', fg='white', font=('helvetica', 9, 'bold'))
 button_select_maze.place(relx=0.1, rely=0.838, relwidth=0.3, relheight=0.072)
 

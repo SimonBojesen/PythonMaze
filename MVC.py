@@ -92,10 +92,10 @@ class Controller(object):
             self.model.reset_steps()
             print("number of iterations: ", steps)
             print("time taken to solve the maze in microseconds: ", elapsedTime*1000000)
-        #stuff happens here. Goodnight, sleep sleep, SIMON OUT!
+        
         
 #this stuff here is for testing the code NOTHING ELSE!!!
 #when building the GUI call the do this kinda code inside there instead of here :)
-c = Controller(Model(), View())
-maze = c.build_a_maze()
-c.solve_a_maze(maze)
+#c = Controller(Model(), View())
+#maze = c.build_a_maze()
+#c.solve_a_maze(maze)

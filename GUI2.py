@@ -1,23 +1,21 @@
-from tkinter import Tk, Canvas, Frame, Label, Entry, Button, Scrollbar, Listbox, Menu, filedialog, simpledialog
+from tkinter import Tk, Canvas, Frame, Label, Entry, Button, Scrollbar, Listbox, Menu, filedialog, simpledialog, END
 import MVC
-
+import os
 window_width = 1500
 windows_height = 700
-text_log = ""
 
+mazes = []
 c = MVC.Controller(MVC.Model(), MVC.View())
 
 def mazeSizeX():
-    X = simpledialog.askinteger('Mazesize', 'Input x', initialvalue="5")
+    X = simpledialog.askinteger('Mazesize', 'Input x', initialvalue='5')
     return X
 
 def mazeSizeY():
-    Y = simpledialog.askinteger('Mazesize', 'Input y', initialvalue="5")
+    Y = simpledialog.askinteger('Mazesize', 'Input y', initialvalue='5')
     return Y
 
 def maze_gen():
-    global filename_label
-    global maze_label
     X = mazeSizeX()
     Y = mazeSizeY()
     maze = c.build_a_maze_GUI(X, Y)
@@ -25,76 +23,95 @@ def maze_gen():
     filename_label.config(text=filename)
     f = open(filename)
     maze_label.config(text=f.read())
+    load_mazes()
 
-def fileBrowse(): #open a browse window and display all files on screen
-    global filename_label
-    global maze_label
-    root.filename = filedialog.askopenfilename(initialdir = "/SavedMazes", title = "Select a File", filetype = (("csv","*csv"), ("All Files", "*.*")))
-    filename = root.filename
-    filename_label.config(text=root.filename)
-    f = open(filename)
+def load_mazes():
+    global mazes
+    listbox_mazes.delete(0, END)
+    mazes = os.listdir('SavedMazes')
+    for maze in mazes:
+        listbox_mazes.insert(END, maze)
+    listbox_mazes.place(relwidth=1, relheight=1)
+
+def get_maze():
+    global mazes
+    path = 'SavedMazes/'
+    maze_index = 0
+    tuple_index = listbox_mazes.curselection() 
+    for value in tuple_index:
+        maze_index = value
+    filename = mazes[maze_index]
+    filename_label.config(text=filename)
+    f = open(path + filename)
     maze_label.config(text=f.read())
-
+    
+def update_observer_text(text):
+    observer_label.config(text=text)
 
 class Subscriber:
-    def __init__(self, function):
-        self.function = function
-
+    def __init__(self, update_observer_text):
+        self.update_observer_text = update_observer_text
     def update(self, message):
-        self.function(message)
-
+        self.update_observer_text(message)
+        
 class Publisher:
     def __init__(self):
         self.subscribers = set()
-
     def register(self, who):
         self.subscribers.add(who)
-
     def unregister(self, who):
         self.subscribers.discard(who)
-
     def dispatch(self, message):
         for subscriber in self.subscribers:
             subscriber.update(message)
 
+pub = Publisher()
+sub = Subscriber(update_observer_text)
+pub.register(sub)
 
 root = Tk()
 root.title('MazesGUI')
 canvas = Canvas(root, width=window_width, height=windows_height, relief='raised')
 canvas.pack()
 
-#menu
-menubar = Menu(root)
-# Maze menu dropdown
-maze = Menu(menubar, tearoff=0)
-# added dropdown options to maze
-maze.add_command(label="New", command=maze_gen)
-maze.add_command(label="Load", command=fileBrowse)  # select a file to load
-maze.add_command(label="Run")
-# added "Maze" to menu
-menubar.add_cascade(label="Maze", menu=maze)
-
-root.config(menu=menubar)
-
 #main frame for showing maze + buttons
-main_frame = Frame(root, bg="#4C7676")
+main_frame = Frame(root, bg='#4C7676')
 main_frame.place(relwidth=0.5, relheight=1, relx=0.25)
-filename_frame = Frame(main_frame, bd=1, bg="black")
+filename_frame = Frame(main_frame, bd=1, bg='black')
 filename_frame.place(relwidth=0.8, relheight=0.05, relx=0.1)
-filename_label = Label(filename_frame)
+filename_label = Label(filename_frame, bg='beige')
 filename_label.place(relwidth=1, relheight=1)
-maze_frame = Frame(main_frame, bd=1, bg="black")
+maze_frame = Frame(main_frame, bd=1, bg='black')
 maze_frame.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.05)
 maze_label = Label(maze_frame)
 maze_label.place(relwidth=1, relheight=1)
-button_solve = Button(main_frame, text='Solve Maze', command="solve_single_mazes", bg='#5AA04B', fg='black', activebackground="#244E1B", font=('helvetica', 9, 'bold'))
-button_solve.place(relwidth=0.2, relheight=0.08, relx=0.1, rely=0.85)
+button_create = Button(main_frame, text='Create maze', command=maze_gen, bg='#5AA04B', fg='black', activebackground='#244E1B', font=('verdana', 12))
+button_create.place(relwidth=0.4, relheight=0.08, relx=0.1, rely=0.85)
+button_solve = Button(main_frame, text='Solve maze', command="solve_single_mazes", bg='#5AA04B', fg='black', activebackground='#244E1B', font=('verdana', 12))
+button_solve.place(relwidth=0.4, relheight=0.08, relx=0.5, rely=0.85)
 
-left_frame = Frame(root, bg="#4C7676")
+#here we have the left frame where we have tried to use observer pattern
+#we write stuff to the user in here like we would normally do in the console
+left_frame = Frame(root, bg='#4C7676')
 left_frame.place(relwidth=0.25, relheight=1)
+top_label_left = Label(left_frame, text='Observer', bg='#4C7676', font=('verdana', 10))
+top_label_left.place(relx=0.1, rely=0.01)
+observer_frame_padding = Frame(left_frame, bd=1, bg='black')
+observer_frame_padding.place(relx=0.1, rely=0.05, relwidth=0.8, relheight=0.88)
+observer_label = Label(observer_frame_padding, font=('verdana', 10))
+observer_label.place(relwidth=1, relheight=1)
 
-
-right_frame = Frame(root, bg="#4C7676")
+right_frame = Frame(root, bg='#4C7676')
 right_frame.place(relwidth=0.25, relheight=1, relx=0.75)
+top_label_right = Label(right_frame, text='Mazes', bg='#4C7676', font=('verdana', 10))
+top_label_right.place(relx=0.1, rely=0.01)
+mazes_frame_padding = Frame(right_frame, bd=1, bg='black')
+mazes_frame_padding.place(relx=0.1, rely=0.05, relwidth=0.8, relheight=0.8)
+mazes_mainframe = Frame(mazes_frame_padding)
+mazes_mainframe.place(relwidth=1, relheight=1)
+listbox_mazes = Listbox(mazes_mainframe, selectbackground='black')
+select_maze = Button(right_frame, text='Select maze', command=get_maze, bg='#5AA04B', fg='black', activebackground='#244E1B', font=('verdana', 12))
+select_maze.place(relx=0.1, rely=0.85, relwidth=0.8, relheight=0.08)
 
+load_mazes()
 root.mainloop()
