@@ -21,6 +21,8 @@ class TestBackend(unittest.TestCase):
     def test_make_empty_maze(self):
         self.assertEqual(backend_functionality.make_empty_maze(5, 5), [[[], [], [], [], []], [
                          [], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []]])
+        self.assertNotEqual(backend_functionality.make_empty_maze(3, 3), [[[], [], [], [], []], [
+            [], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []]])
 
 
 if __name__ == '__main__':

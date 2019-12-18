@@ -1,4 +1,6 @@
-from tkinter import Tk, Canvas, Frame, Label, Entry, Button, Scrollbar, Listbox, Menu, filedialog, simpledialog, END, Text
+
+from tkinter import Tk, Canvas, Frame, Label, Entry, Button, Scrollbar, Listbox, Menu, filedialog, simpledialog, END, Text, messagebox
+
 import MVC
 import os
 window_width = 1500
@@ -7,15 +9,40 @@ windows_height = 850
 mazes = []
 c = MVC.Controller(MVC.Model(), MVC.View())
 
+
+class MazeSizeTooLow(Exception):
+    pass
+
+
+class MazeSizeTooHigh(Exception):
+    pass
+
+
 def mazeSizeX():
-    X = simpledialog.askinteger('Mazesize', 'Input x', initialvalue=5, minvalue=5, maxvalue=5)
-    if X <= 30 and X >= 5:
-        return X
+    X = simpledialog.askinteger('Mazesize', 'Input x', initialvalue="5")
+    if(X < 5):
+        messagebox.showinfo(
+            "UPS try again!", "Minium size for generating a maze is: 5")
+        raise MazeSizeTooLow(X)
+    if(X > 30):
+        messagebox.showinfo(
+            "UPS try again!", "Maximum size for generating a maze is: 30")
+        raise MazeSizeTooHigh(X)
+    return X
+
 
 def mazeSizeY():
-    Y = simpledialog.askinteger('Mazesize', 'Input y', initialvalue=5, minvalue=5, maxvalue=5)
-    if Y <= 30 and Y >= 5:
-        return Y
+    Y = simpledialog.askinteger('Mazesize', 'Input y', initialvalue="5")
+    if(Y < 5):
+        messagebox.showinfo(
+            "UPS try again!", "Minium size for generating a maze is: 5")
+        raise MazeSizeTooLow(Y)
+    if(Y > 30):
+        messagebox.showinfo(
+            "UPS try again!", "Maximum size for generating a maze is: 30")
+        raise MazeSizeTooHigh(Y)
+    return Y
+
 
 def maze_gen():
     X = mazeSizeX()
@@ -24,6 +51,7 @@ def maze_gen():
     filename = c.save_maze(maze)
     filename_label.config(text=filename)
     f = open(filename)
+    maze_text_widget.delete('1.0', END)
     maze_text_widget.insert(END, f.read())
     #maze_label.config(text=f.read())
     load_mazes()
@@ -51,7 +79,7 @@ def get_maze():
     global mazes
     path = 'SavedMazes/'
     maze_index = 0
-    tuple_index = listbox_mazes.curselection() 
+    tuple_index = listbox_mazes.curselection()
     for value in tuple_index:
         maze_index = value
     filename = mazes[maze_index]
@@ -64,22 +92,29 @@ def update_observer_text(text):
     observer_text_widget.delete('1.0', END)
     observer_text_widget.insert(END, text)
 
+
 class Subscriber:
     def __init__(self, update_observer_text):
         self.update_observer_text = update_observer_text
+
     def update(self, message):
         self.update_observer_text(message)
-        
+
+
 class Publisher:
     def __init__(self):
         self.subscribers = set()
+
     def register(self, who):
         self.subscribers.add(who)
+
     def unregister(self, who):
         self.subscribers.discard(who)
+
     def dispatch(self, message):
         for subscriber in self.subscribers:
             subscriber.update(message)
+
 
 pub = Publisher()
 sub = Subscriber(update_observer_text)
@@ -90,7 +125,7 @@ root.title('MazesGUI')
 canvas = Canvas(root, width=window_width, height=windows_height, relief='raised')
 canvas.pack()
 
-#main frame for showing maze + buttons
+# main frame for showing maze + buttons
 main_frame = Frame(root, bg='#4C7676')
 main_frame.place(relwidth=0.5, relheight=1, relx=0.25)
 filename_frame = Frame(main_frame, bd=1, bg='black')
@@ -106,8 +141,8 @@ button_create.place(relwidth=0.45, relheight=0.08, relx=0.05, rely=0.85)
 button_solve = Button(main_frame, text='Solve maze', command=solve_maze, bg='#5AA04B', fg='black', activebackground='#244E1B', font=('verdana', 12))
 button_solve.place(relwidth=0.45, relheight=0.08, relx=0.5, rely=0.85)
 
-#here we have the left frame where we have tried to use observer pattern
-#we write stuff to the user in here like we would normally do in the console
+# here we have the left frame where we have tried to use observer pattern
+# we write stuff to the user in here like we would normally do in the console
 left_frame = Frame(root, bg='#4C7676')
 left_frame.place(relwidth=0.25, relheight=1)
 top_label_left = Label(left_frame, text='Observer', bg='#4C7676', font=('verdana', 10))
