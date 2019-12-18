@@ -8,8 +8,7 @@ import os, os.path
 # this is a stepcounter
 # it increments by 1 everytime the search function gets called
 # this is why we start at -1 so that the first time it gets called it increments to 0 steps
-#stepcount = -1
-final_stepcount = 0
+stepcount = -1
 grid = []
 # needed for DFS...cls
 sys.setrecursionlimit(10000)
@@ -55,7 +54,7 @@ def DFS(maze, coords=(0, 0)):
             DFS(maze, new_coords)
     return maze
 
-def search(x, y, stepcount=-1):
+def search(x, y):
     if grid[x][y] == '2':
         print("found at %d,%d" % (x, y))
         # Time end here? yes
@@ -66,23 +65,23 @@ def search(x, y, stepcount=-1):
     elif grid[x][y] == '3':
         print('visited at %d,%d' % (x, y))
         return (False)
-    stepcount_incremented = increment(stepcount)
+    increment()
     print('visiting %d,%d' % (x, y))
 
     # mark as visited
     grid[x][y] = '3'
 
     # explore neighbors clockwise starting by the one on the right
-    if ((x < (len(grid)-1) and search(x+1, y, stepcount_incremented))
-        or (y > 0 and search(x, y-1, stepcount_incremented))
-        or (x > 0 and search(x-1, y, stepcount_incremented))
-        or (y < len(grid)-1 and search(x, y+1, stepcount_incremented))):  
-        final_stepcount = stepcount_incremented
+    if ((x < (len(grid)-1) and search(x+1, y))
+        or (y > 0 and search(x, y-1))
+        or (x > 0 and search(x-1, y))
+        or (y < len(grid)-1 and search(x, y+1))):   
         return True
     return False
 
-def increment(stepcount):
-    return stepcount+1
+def increment():
+    global stepcount
+    stepcount = stepcount+1
 
 def write(maze):
     if platform.system() == 'Windows':
@@ -126,5 +125,7 @@ def set_grid(maze):
     grid = maze
 
 def get_steps():
-    global final_stepcount
-    return final_stepcount
+    global stepcount
+    steps = stepcount
+    stepcount = -1
+    return steps
