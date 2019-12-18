@@ -20,7 +20,7 @@ def mazeSizeX():
     X = simpledialog.askinteger('Mazesize', 'Input x', initialvalue="5")
     if(X < 5):
         messagebox.showinfo(
-            "UPS try again!", "Minum size for generating a maze is: 5")
+            "UPS try again!", "Minium size for generating a maze is: 5")
         raise MazeSizeTooLow(X)
     if(X > 30):
         messagebox.showinfo(
@@ -33,7 +33,7 @@ def mazeSizeY():
     Y = simpledialog.askinteger('Mazesize', 'Input y', initialvalue="5")
     if(Y < 5):
         messagebox.showinfo(
-            "UPS try again!", "Minum size for generating a maze is: 5")
+            "UPS try again!", "Minium size for generating a maze is: 5")
         raise MazeSizeTooLow(Y)
     if(Y > 30):
         messagebox.showinfo(
