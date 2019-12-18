@@ -53,7 +53,6 @@ def maze_gen():
     f = open(filename)
     maze_text_widget.delete('1.0', END)
     maze_text_widget.insert(END, f.read())
-    #maze_label.config(text=f.read())
     load_mazes()
 
 def solve_maze():
@@ -64,8 +63,9 @@ def solve_maze():
         maze_index = value
     filename = mazes[maze_index]
     maze = c.read_maze(filename)
-    c.solve_a_maze_GUI(pub, maze)
-
+    steps_and_time = c.solve_a_maze_GUI(pub, maze)
+    add_observer_text('number of iterations:\n' + str(steps_and_time[0]) + '\n')
+    add_observer_text('timed solving the maze in microseconds:\n' + str(steps_and_time[1]))
 
 def load_mazes():
     global mazes
@@ -92,6 +92,8 @@ def update_observer_text(text):
     observer_text_widget.delete('1.0', END)
     observer_text_widget.insert(END, text)
 
+def add_observer_text(text):
+    observer_text_widget.insert(END, text)
 
 class Subscriber:
     def __init__(self, update_observer_text):

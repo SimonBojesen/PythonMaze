@@ -29,10 +29,9 @@ class Model(object):
         backend_functionality.set_grid(maze)
 
     def get_steps(self):
-        return backend_functionality.get_steps()
-
-    def reset_steps(self):
+        steps = backend_functionality.get_steps()
         backend_functionality.reset_steps()
+        return steps
         
     def count(self):
         backend_functionality.count_saved_mazes()
@@ -90,12 +89,17 @@ class Controller(object):
             print("time taken to solve the maze in microseconds: ", elapsedTime*1000000)
 
     def build_a_maze_GUI(self, x, y):
-        maze = self.model.maze_gen(x, y)
-        return maze
+        return self.model.maze_gen(x, y)
     
     def solve_a_maze_GUI(self, observer, maze):
         self.model.set_maze(maze)
-        return self.model.solve_a_maze_GUI(observer)
+        start = time.time()
+        self.model.solve_a_maze_GUI(observer)
+        stop = time.time()
+        elapsedTime = stop-start
+        array = [self.model.get_steps(), elapsedTime*1000000]
+        
+        return array
 
     def save_maze(self, maze):
         return self.model.save_maze(maze)
@@ -103,7 +107,7 @@ class Controller(object):
     def read_maze(self, filename):
         return self.model.load_maze(filename)
 
-    
+
         
         
 #this stuff here is for testing the code NOTHING ELSE!!!
