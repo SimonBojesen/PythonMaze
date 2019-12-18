@@ -126,6 +126,8 @@ def set_grid(maze):
 
 def get_steps():
     global stepcount
-    steps = stepcount
+    return stepcount
+
+def reset_steps():
+    global stepcount
     stepcount = -1
-    return steps

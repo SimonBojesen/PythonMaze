@@ -27,6 +27,9 @@ class Model(object):
 
     def get_steps(self):
         return backend_functionality.get_steps()
+
+    def reset_steps(self):
+        backend_functionality.reset_steps()
         
     def count(self):
         backend_functionality.count_saved_mazes()
@@ -86,6 +89,7 @@ class Controller(object):
             stop = time.time()
             elapsedTime = stop-start
             steps = self.model.get_steps()
+            self.model.reset_steps()
             print("number of iterations: ", steps)
             print("time taken to solve the maze in microseconds: ", elapsedTime*1000000)
         #stuff happens here. Goodnight, sleep sleep, SIMON OUT!
