@@ -53,10 +53,6 @@ def maze_gen():
     f = open(filename)
     maze_text_widget.delete('1.0', END)
     maze_text_widget.insert(END, f.read())
-<<<<<<< HEAD
-=======
-    # maze_label.config(text=f.read())
->>>>>>> 7dc2c6de16c41ee966e890642419e59c59ca49be
     load_mazes()
 
 
