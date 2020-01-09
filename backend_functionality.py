@@ -58,6 +58,9 @@ def DFS(maze, coords=(0, 0)):
             DFS(maze, new_coords)
     return maze
 
+def reReset():
+   global string 
+   string = 'Solving:\n'
 
 def search(x, y):
     if grid[x][y] == '2':

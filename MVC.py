@@ -7,6 +7,9 @@ class Model(object):
     def maze_gen(self, sizeX, sizeY):
         return backend_functionality.maze_generate(sizeX, sizeY)
 
+    def reset_String(self):
+        backend_functionality.reReset()
+
     def solve_a_maze_GUI(self, observer):
         return backend_functionality.search_GUI(1, 1, observer)
 
@@ -92,6 +95,7 @@ class Controller(object):
         return self.model.maze_gen(x, y)
     
     def solve_a_maze_GUI(self, observer, maze):
+        self.model.reset_String()
         self.model.set_maze(maze)
         start = time.time()
         self.model.solve_a_maze_GUI(observer)
